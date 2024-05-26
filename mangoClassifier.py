@@ -142,3 +142,27 @@ for train_index, val_index in kf.split(X_train_full):
     print(f"Validation Accuracy for fold {fold_no}:", val_accuracy)
 
     fold_no += 1
+        
+#save model
+model.save('mango_classifier_01.h5')
+
+# Function to predict the type of mango tree
+def predict_mango_tree(ratio, angle, length_of_petiole):
+    # Assuming 'max_X_train' is the maximum value from X_train used for normalization during training
+    max_X_train = np.max(X_train_full) 
+        
+    # Prepare the input data by normalizing it the same way as the training data
+    input_data = np.array([[ratio, angle, length_of_petiole]]) / max_X_train
+    
+    # Predict the type of mango tree
+    prediction = model.predict(input_data)
+    predicted_class_index = np.argmax(prediction, axis=1)
+    
+    # Decode the prediction to get the mango tree type
+    predicted_tree = encoder.classes_[predicted_class_index][0]  # Access class name directly
+    
+    return predicted_tree
+
+# Example usage
+example_prediction = predict_mango_tree(3.5, 28.2, 1.78)
+print(f'Predicted Mango Tree: {example_prediction}')
