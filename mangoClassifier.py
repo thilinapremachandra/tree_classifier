@@ -115,22 +115,6 @@ for train_index, val_index in kf.split(X_train_full):
     X_train_k, X_val_k = X_train_full[train_index], X_train_full[val_index]
     y_train_k, y_val_k = y_train_full[train_index], y_train_full[val_index]
 
-    # Normalize the features
-    X_train_k = X_train_k / np.max(X_train_k)
-    X_val_k = X_val_k / np.max(X_val_k)
-
-    # Build the neural network model
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Dense(512, input_shape=(X_train.shape[1],), activation='relu'),
-        tf.keras.layers.Dense(256, activation='relu'),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dense(32, activation='relu'),
-        tf.keras.layers.Dense(3, activation='softmax')
-    ])
-
-    # Compile the model
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
     print(f'Training for fold {fold_no} ...')
 
     # Train the model
